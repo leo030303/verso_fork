@@ -4,9 +4,6 @@ use std::rc::Rc;
 use std::sync::Arc;
 use std::time::{Duration, Instant};
 
-use base::cross_process_instant::CrossProcessInstant;
-use base::id::{PipelineId, WebViewId};
-use base::{Epoch, WebRenderEpochToU16};
 use compositing_traits::display_list::{CompositorDisplayListInfo, HitTestInfo, ScrollTree};
 use compositing_traits::{
     CompositionPipeline, CompositorMsg, CompositorProxy, ImageUpdate, SendableFrameTree,
@@ -26,10 +23,13 @@ use euclid::{Point2D, Scale, Size2D, Transform3D, Vector2D, vec2};
 use gleam::gl;
 use ipc_channel::ipc::{self, IpcSharedMemory};
 use log::{debug, error, trace, warn};
-use profile_traits::mem::{ProcessReports, Report, ReportKind};
-use profile_traits::time::{self as profile_time, ProfilerCategory};
-use profile_traits::{mem, path, time, time_profile};
-use servo_geometry::{DeviceIndependentIntSize, DeviceIndependentPixel};
+use servo::base::cross_process_instant::CrossProcessInstant;
+use servo::base::id::{PipelineId, WebViewId};
+use servo::base::{Epoch, WebRenderEpochToU16};
+use servo::profile_traits::mem::{ProcessReports, Report, ReportKind};
+use servo::profile_traits::time::{self as profile_time, ProfilerCategory};
+use servo::profile_traits::{mem, path, time, time_profile};
+use servo::servo_geometry::{DeviceIndependentIntSize, DeviceIndependentPixel};
 use style_traits::CSSPixel;
 use webrender::{RenderApi, Transaction};
 use webrender_api::units::{

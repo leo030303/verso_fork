@@ -6,7 +6,7 @@ use constellation_traits::{EmbedderToConstellationMessage, TraversalDirection};
 use crossbeam_channel::Sender;
 use embedder_traits::ViewportDetails;
 use serde::{Deserialize, Serialize};
-use servo_url::ServoUrl;
+use servo::servo_url::ServoUrl;
 use std::fmt;
 use url::Url;
 use webrender_api::units::DeviceRect;

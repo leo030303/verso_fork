@@ -3,7 +3,7 @@ use crossbeam_channel::Sender;
 use dpi::{LogicalPosition, PhysicalPosition};
 use embedder_traits::ViewportDetails;
 use euclid::Scale;
-use servo_url::ServoUrl;
+use servo::servo_url::ServoUrl;
 use webrender_api::units::DeviceRect;
 
 use crate::{verso::send_to_constellation, window::Window};

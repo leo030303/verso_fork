@@ -1,10 +1,10 @@
 id: org.versotile.verso
 runtime: org.freedesktop.Platform
-runtime-version: '24.08'
+runtime-version: '25.08'
 sdk: org.freedesktop.Sdk
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.rust-stable
-  - org.freedesktop.Sdk.Extension.llvm18
+  - org.freedesktop.Sdk.Extension.llvm21
 finish-args:
   - --share=ipc
   - --socket=fallback-x11
@@ -16,13 +16,20 @@ finish-args:
   - --device=dri
   - --filesystem=home
 build-options:
-  append-path: /usr/lib/sdk/rust-stable/bin:/usr/lib/sdk/llvm18/bin
-  prepend-ld-library-path: /usr/lib/sdk/llvm18/lib
+  append-path: /usr/lib/sdk/rust-stable/bin:/usr/lib/sdk/llvm21/bin
+  prepend-ld-library-path: /usr/lib/sdk/llvm21/lib
+  build-args: 
+    - --share=network
   env:
     CARGO_HOME: /run/build/verso/cargo
     MOZJS_ARCHIVE: /run/build/verso/libmozjs-x86_64-unknown-linux-gnu.tar.gz
 command: verso
 modules:
+  - name: uv
+    buildsystem: simple
+    build-commands:
+      # Install pyhton packages required by script crates
+      - pip3 install --prefix=/app uv
   - name: verso
     buildsystem: simple
     build-commands:
@@ -37,22 +44,22 @@ modules:
       - mkdir -p ${CARGO_HOME}/resources
       - cp ./resources/rippy.png ${CARGO_HOME}/resources/
       # Build Verso release profile
-      - cargo --offline fetch --manifest-path Cargo.toml
-      - cargo --offline build --release --features flatpak
-      - cargo --offline build --release --package verso
+      # - cargo fetch --manifest-path Cargo.toml
+      - cargo build --release --features flatpak
+      - cargo build --release --package verso
       # Install Verso
       - install -Dm755 ./target/release/versoview -t /app/bin/
       - install -Dm755 ./target/release/verso -t /app/bin/
       - mkdir /app/resources
       - cp -r ./resources/* /app/resources
     sources:
-      - cargo-sources.json
+      # - cargo-sources.json
       - type: dir
         path: .
       - type: file
         # Update the link whenever mozjs-sys is updated
-        url: https://github.com/servo/mozjs/releases/download/mozjs-sys-v0.128.9-1/libmozjs-x86_64-unknown-linux-gnu.tar.gz
-        sha256: 26bdd1ece46ac00be28fadda72f3c5735d9adc9d846236d5d4c00ed4efbd9faf
+        url: https://github.com/servo/mozjs/releases/download/mozjs-sys-v0.140.0-8/libmozjs-x86_64-unknown-linux-gnu.tar.gz
+        sha256: 5469f0941f5cc908dff4b333f3410ff5be7b6fa16250ef447baa5b3073d10092
         only-arches:
           - x86_64
 

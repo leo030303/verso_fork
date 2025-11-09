@@ -25,7 +25,7 @@ use notify_rust::Image;
 #[cfg(target_os = "macos")]
 use raw_window_handle::HasWindowHandle;
 use reqwest::Client;
-use servo_url::ServoUrl;
+use servo::servo_url::ServoUrl;
 use versoview_messages::ToControllerMessage;
 use webrender_api::{
     ScrollLocation,

@@ -5,7 +5,12 @@ Cargo.lock
 .flatpak-builder/
 libmozjs*
 cargo-sources.json
-
+vendor/
 resources/*
 !resources/components/
 !resources/prefs.json
+third_party/WebIDL/__pycache__
+third_party/WebIDL/__pycache__
+third_party/WebIDL/__pycache__/WebIDL.cpython-311.pyc
+third_party/WebIDL/__pycache__/WebIDL.cpython-312.pyc
+third_party/WebIDL/tests

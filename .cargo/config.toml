@@ -1,2 +1,40 @@
 [env]
 RUSTC_BOOTSTRAP = "crown,script,script_bindings,style_tests,mozjs,mozjs_sys"
+
+# [source.crates-io]
+# replace-with = "vendored-sources"
+
+# [source."git+https://github.com/servo/fontsan"]
+# git = "https://github.com/servo/fontsan"
+# replace-with = "vendored-sources"
+
+# [source."git+https://github.com/servo/media"]
+# git = "https://github.com/servo/media"
+# replace-with = "vendored-sources"
+
+# [source."git+https://github.com/servo/mozjs"]
+# git = "https://github.com/servo/mozjs"
+# replace-with = "vendored-sources"
+
+# [source."git+https://github.com/servo/rust-content-security-policy/?branch=servo-csp"]
+# git = "https://github.com/servo/rust-content-security-policy/"
+# branch = "servo-csp"
+# replace-with = "vendored-sources"
+
+# [source."git+https://github.com/servo/servo.git?rev=b73b908"]
+# git = "https://github.com/servo/servo.git"
+# rev = "b73b908"
+# replace-with = "vendored-sources"
+
+# [source."git+https://github.com/servo/stylo?branch=2025-10-01"]
+# git = "https://github.com/servo/stylo"
+# branch = "2025-10-01"
+# replace-with = "vendored-sources"
+
+# [source."git+https://github.com/servo/webrender?branch=0.68"]
+# git = "https://github.com/servo/webrender"
+# branch = "0.68"
+# replace-with = "vendored-sources"
+
+# [source.vendored-sources]
+# directory = "vendor"

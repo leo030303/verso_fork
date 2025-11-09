@@ -11,7 +11,7 @@ use embedder_traits::{
 };
 use euclid::Scale;
 use ipc_channel::ipc::{self, IpcSender};
-use servo_url::ServoUrl;
+use servo::servo_url::ServoUrl;
 use url::Url;
 use versoview_messages::ToControllerMessage;
 use webrender_api::units::{DevicePoint, DeviceRect};
@@ -73,7 +73,7 @@ pub struct Panel {
     /// The panel's webview
     pub(crate) webview: WebView,
     /// The URL to load when the panel gets loaded
-    pub(crate) initial_url: servo_url::ServoUrl,
+    pub(crate) initial_url: servo::servo_url::ServoUrl,
 }
 
 impl Window {

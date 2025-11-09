@@ -28,7 +28,7 @@ use crossbeam_channel::Sender;
 #[cfg(linux)]
 use serde::{Deserialize, Serialize};
 #[cfg(linux)]
-use servo_url::ServoUrl;
+use servo::servo_url::ServoUrl;
 #[cfg(linux)]
 use url::Url;
 #[cfg(linux)]
