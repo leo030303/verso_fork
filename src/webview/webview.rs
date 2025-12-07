@@ -2,7 +2,7 @@ use std::str::FromStr;
 
 use arboard::Clipboard;
 use base::id::WebViewId;
-use constellation_traits::{EmbedderToConstellationMessage, TraversalDirection};
+use constellation::TraversalDirection;
 use crossbeam_channel::Sender;
 use embedder_traits::{
     AlertResponse, AllowOrDeny, ConfirmResponse, ContextMenuResult, EmbedderMsg, LoadStatus,
@@ -11,6 +11,7 @@ use embedder_traits::{
 };
 use euclid::Scale;
 use ipc_channel::ipc::{self, IpcSender};
+use servo::EmbedderToConstellationMessage;
 use servo::servo_url::ServoUrl;
 use url::Url;
 use versoview_messages::ToControllerMessage;

@@ -4,14 +4,11 @@ use std::rc::Rc;
 use std::sync::Arc;
 use std::time::{Duration, Instant};
 
-use compositing_traits::display_list::{CompositorDisplayListInfo, HitTestInfo, ScrollTree};
+use compositing::display_list::{CompositorDisplayListInfo, HitTestInfo, ScrollTree};
 use compositing_traits::{
     CompositionPipeline, CompositorMsg, CompositorProxy, ImageUpdate, SendableFrameTree,
 };
-use constellation_traits::{
-    AnimationTickType, EmbedderToConstellationMessage, PaintMetricEvent, ScrollState,
-    WindowSizeType,
-};
+use constellation::{AnimationTickType, PaintMetricEvent, ScrollState, WindowSizeType};
 use crossbeam_channel::{Receiver, Sender};
 use dpi::PhysicalSize;
 use embedder_traits::{
@@ -23,6 +20,7 @@ use euclid::{Point2D, Scale, Size2D, Transform3D, Vector2D, vec2};
 use gleam::gl;
 use ipc_channel::ipc::{self, IpcSharedMemory};
 use log::{debug, error, trace, warn};
+use servo::EmbedderToConstellationMessage;
 use servo::base::cross_process_instant::CrossProcessInstant;
 use servo::base::id::{PipelineId, WebViewId};
 use servo::base::{Epoch, WebRenderEpochToU16};
@@ -585,7 +583,7 @@ impl IOCompositor {
                 let point = dppx.transform_point(Point2D::new(x, y));
                 self.dispatch_input_event(
                     webview_id,
-                    InputEvent::MouseMove(MouseMoveEvent { point }),
+                    InputEvent::MouseMove(MouseMoveEvent { point: embedder_traits::WebViewPoint::Device(point) }),
                 );
             }
 
@@ -1520,13 +1518,13 @@ impl IOCompositor {
     /// <http://w3c.github.io/touch-events/#mouse-events>
     fn simulate_mouse_click(&mut self, webview_id: WebViewId, point: DevicePoint) {
         let button = MouseButton::Left;
-        self.dispatch_input_event(webview_id, InputEvent::MouseMove(MouseMoveEvent { point }));
+        self.dispatch_input_event(webview_id, InputEvent::MouseMove(MouseMoveEvent {  point: embedder_traits::WebViewPoint::Device(point) }));
         self.dispatch_input_event(
             webview_id,
             InputEvent::MouseButton(MouseButtonEvent {
                 button,
                 action: MouseButtonAction::Down,
-                point,
+                point: embedder_traits::WebViewPoint::Device(point) ,
             }),
         );
         self.dispatch_input_event(
@@ -1534,7 +1532,7 @@ impl IOCompositor {
             InputEvent::MouseButton(MouseButtonEvent {
                 button,
                 action: MouseButtonAction::Up,
-                point,
+                point: embedder_traits::WebViewPoint::Device(point) ,
             }),
         );
         self.dispatch_input_event(
@@ -1542,7 +1540,7 @@ impl IOCompositor {
             InputEvent::MouseButton(MouseButtonEvent {
                 button,
                 action: MouseButtonAction::Click,
-                point,
+                point: embedder_traits::WebViewPoint::Device(point) ,
             }),
         );
     }

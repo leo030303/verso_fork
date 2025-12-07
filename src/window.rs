@@ -1,7 +1,6 @@
 use std::{cell::Cell, collections::HashMap};
 
 use base::id::WebViewId;
-use constellation_traits::EmbedderToConstellationMessage;
 use crossbeam_channel::Sender;
 use embedder_traits::{
     AlertResponse, AllowOrDeny, ConfirmResponse, Cursor, EmbedderMsg, ImeEvent, InputEvent,
@@ -25,6 +24,7 @@ use notify_rust::Image;
 #[cfg(target_os = "macos")]
 use raw_window_handle::HasWindowHandle;
 use reqwest::Client;
+use servo::EmbedderToConstellationMessage;
 use servo::servo_url::ServoUrl;
 use versoview_messages::ToControllerMessage;
 use webrender_api::{
@@ -449,7 +449,7 @@ impl Window {
                     compositor,
                     webview_id,
                     sender,
-                    InputEvent::MouseMove(MouseMoveEvent { point }),
+                    InputEvent::MouseMove(MouseMoveEvent {  point: embedder_traits::WebViewPoint::Device(point) }),
                 );
 
                 // handle Windows and Linux non-decoration window resize cursor
@@ -505,14 +505,14 @@ impl Window {
 
                 let event: MouseButtonEvent = match state {
                     ElementState::Pressed => MouseButtonEvent {
-                        point,
+                         point: embedder_traits::WebViewPoint::Device(point),
                         action: MouseButtonAction::Down,
                         button,
                     },
                     ElementState::Released => {
                         self.resizing = false;
                         MouseButtonEvent {
-                            point,
+                             point: embedder_traits::WebViewPoint::Device(point),
                             action: MouseButtonAction::Up,
                             button,
                         }
@@ -534,7 +534,7 @@ impl Window {
                 // Winit didn't send click event, so we send it after mouse up
                 if *state == ElementState::Released {
                     let event: MouseButtonEvent = MouseButtonEvent {
-                        point,
+                        point: embedder_traits::WebViewPoint::Device(point) ,
                         action: MouseButtonAction::Click,
                         button,
                     };
@@ -679,7 +679,7 @@ impl Window {
                 if self.handle_keyboard_shortcut(compositor, &event) {
                     return;
                 }
-                forward_input_event(compositor, webview_id, sender, InputEvent::Keyboard(event));
+                forward_input_event(compositor, webview_id, sender, InputEvent::Keyboard(embedder_traits::KeyboardEvent { event: event }));
             }
             e => log::trace!("Verso Window isn't supporting this window event yet: {e:?}"),
         }
@@ -1007,7 +1007,7 @@ impl Window {
         #[cfg(linux)]
         {
             if let Some(icon_image) = notification.icon_resource.as_ref().and_then(|icon| {
-                Image::from_rgba(icon.width as i32, icon.height as i32, icon.bytes().to_vec()).ok()
+                Image::from_rgba(icon.metadata.width as i32, icon.metadata.height as i32, icon.bytes.to_vec()).ok()
             }) {
                 display_notification.image_data(icon_image);
             }
@@ -1043,13 +1043,13 @@ impl Window {
         {
             match sender {
                 PromptSender::AlertSender(sender) => {
-                    let _ = sender.send(AlertResponse::default());
+                    let _ = sender.send(AlertResponse::Ok);
                 }
                 PromptSender::ConfirmSender(sender) => {
-                    let _ = sender.send(ConfirmResponse::default());
+                    let _ = sender.send(ConfirmResponse::Cancel);
                 }
                 PromptSender::InputSender(sender) => {
-                    let _ = sender.send(PromptResponse::default());
+                    let _ = sender.send(PromptResponse::Cancel);
                 }
                 PromptSender::AllowDenySender(sender) => {
                     let _ = sender.send(AllowOrDeny::Deny);

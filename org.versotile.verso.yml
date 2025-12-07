@@ -58,8 +58,8 @@ modules:
         path: .
       - type: file
         # Update the link whenever mozjs-sys is updated
-        url: https://github.com/servo/mozjs/releases/download/mozjs-sys-v0.140.0-8/libmozjs-x86_64-unknown-linux-gnu.tar.gz
-        sha256: 5469f0941f5cc908dff4b333f3410ff5be7b6fa16250ef447baa5b3073d10092
+        url: https://github.com/servo/mozjs/releases/download/mozjs-sys-v0.140.5-1/libmozjs-x86_64-unknown-linux-gnu.tar.gz
+        sha256: e7507a9428525bf5e94cbc75f5f4e785ac9b783d3d9f1f273682ec9030a45489
         only-arches:
           - x86_64
 

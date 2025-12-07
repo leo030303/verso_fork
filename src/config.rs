@@ -8,7 +8,7 @@ use embedder_traits::resources::{self, Resource, ResourceReaderMethods};
 use embedder_traits::user_content_manager::UserScript as ServoUserScript;
 use headers::{ContentType, HeaderMapExt};
 use net::protocols::{ProtocolHandler, ProtocolRegistry};
-use net_traits::{
+use servo::net_traits::{
     ResourceFetchTiming,
     request::Request,
     response::{Response, ResponseBody},

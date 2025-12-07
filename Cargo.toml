@@ -16,7 +16,7 @@ url = { version = "2.5.2", features = ["serde"] }
 log = "0.4"
 headers = "0.4"
 http = "1"
-uuid = { version = "1", features = ["v4", "serde"] }
+uuid = { version = "1.19.0", features = ["v4", "serde"] }
 dpi = { version = "0.1", features = ["serde"] }
 
 [package]
@@ -76,7 +76,7 @@ gleam = "0.15"
 glutin = "0.32.0"
 glutin-winit = "0.5.0"
 ipc-channel = { workspace = true }
-keyboard-types = "0.7"
+keyboard-types = "0.8.3"
 log = { workspace = true }
 raw-window-handle = { version = "0.6", features = ["std"] }
 rustls = { version = "0.23", default-features = false, features = ["aws-lc-rs"] }
@@ -97,12 +97,35 @@ rfd = "0.15"
 reqwest = { version = "0.12", features = ["json", "blocking"] }
 tokio = { version = "1", features = ["full"] }
 # Servo repo crates
-libservo = { git = "https://github.com/servo/servo.git", rev = "b73b908", features = ["background_hang_monitor", "bluetooth", "testbinding"] }
+background_hang_monitor = { git = "https://github.com/servo/servo.git", rev = "ce2a51a" }
+base = { git = "https://github.com/servo/servo.git", rev = "ce2a51a" }
+bluetooth = { git = "https://github.com/servo/servo.git", rev = "ce2a51a", optional = true }
+bluetooth_traits = { git = "https://github.com/servo/servo.git", rev = "ce2a51a", optional = true }
+canvas = { git = "https://github.com/servo/servo.git", rev = "ce2a51a", features = ["vello_cpu"] }
+compositing_traits = { git = "https://github.com/servo/servo.git", rev = "ce2a51a" }
+constellation = { git = "https://github.com/servo/servo.git", rev = "ce2a51a" }
+constellation_traits = { git = "https://github.com/servo/servo.git", rev = "ce2a51a" }
+devtools = { git = "https://github.com/servo/servo.git", rev = "ce2a51a" }
+embedder_traits = { git = "https://github.com/servo/servo.git", rev = "ce2a51a" }
+fonts = { git = "https://github.com/servo/servo.git", rev = "ce2a51a" }
+media = { git = "https://github.com/servo/servo.git", rev = "ce2a51a" }
+net = { git = "https://github.com/servo/servo.git", rev = "ce2a51a" }
+net_traits = { git = "https://github.com/servo/servo.git", rev = "ce2a51a" }
+profile = { git = "https://github.com/servo/servo.git", rev = "ce2a51a" }
+profile_traits = { git = "https://github.com/servo/servo.git", rev = "ce2a51a" }
+script = { git = "https://github.com/servo/servo.git", rev = "ce2a51a" }
+script_traits = { git = "https://github.com/servo/servo.git", rev = "ce2a51a" }
+servo_allocator = { git = "https://github.com/servo/servo.git", rev = "ce2a51a" }
+servo_config = { git = "https://github.com/servo/servo.git", rev = "ce2a51a" }
+servo_geometry = { git = "https://github.com/servo/servo.git", rev = "ce2a51a" }
+servo_url = { git = "https://github.com/servo/servo.git", rev = "ce2a51a" }
+webdriver_server = { git = "https://github.com/servo/servo.git", rev = "ce2a51a" }
+webgpu = { git = "https://github.com/servo/servo.git", rev = "ce2a51a" }
+webgpu_traits = { git = "https://github.com/servo/servo.git", rev = "ce2a51a" }
 # Servo org crates
 servo-media = { git = "https://github.com/servo/media" }
 servo-media-dummy = { git = "https://github.com/servo/media" }
-stylo = { git = "https://github.com/servo/stylo", branch = "2025-10-01" }
-stylo_traits = { git = "https://github.com/servo/stylo", branch = "2025-10-01" }
+stylo_traits = { git = "https://github.com/servo/stylo", branch = "2025-11-01" }
 webrender = { git = "https://github.com/servo/webrender", branch = "0.68", features = ["capture"] }
 webrender_api = { git = "https://github.com/servo/webrender", branch = "0.68" }
 wr_malloc_size_of = { git = "https://github.com/servo/webrender", branch = "0.68" }
@@ -113,7 +136,6 @@ cargo-packager-resource-resolver = { version = "0.1.1", features = [
 chrono = "0.4.41"
 percent-encoding = "2.3.1"
 directories = "6.0.0"
-
 [target.'cfg(all(unix, not(target_os = "macos"), not(target_os = "ios"), not(target_os = "android")))'.dependencies]
 notify-rust = { version = "4.11.5", features = ["images"] }
 
