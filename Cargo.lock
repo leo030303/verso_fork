@@ -268,7 +268,7 @@ dependencies = [
  "objc2-foundation 0.3.2",
  "parking_lot",
  "percent-encoding",
- "windows-sys 0.52.0",
+ "windows-sys 0.59.0",
  "x11rb",
 ]
 
@@ -2251,7 +2251,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "976dd42dc7e85965fe702eb8164f21f450704bdde31faefd6471dba214cb594e"
 dependencies = [
  "libc",
- "windows-sys 0.52.0",
+ "windows-sys 0.59.0",
 ]
 
 [[package]]
@@ -2540,13 +2540,23 @@ dependencies = [
 
 [[package]]
 name = "fontsan"
-version = "0.5.2"
-source = "git+https://github.com/servo/fontsan#138bdb0451c4ea02a303caddc1a6c1fd654ae927"
+version = "0.6.1"
+source = "git+https://github.com/servo/fontsan#ec58e75f566648a256a4fe7264ea6ffa2b83f201"
 dependencies = [
  "cc",
+ "fontsan-woff2",
  "glob",
  "libc",
- "miniz-sys",
+ "libz-sys",
+]
+
+[[package]]
+name = "fontsan-woff2"
+version = "0.1.1"
+source = "git+https://github.com/servo/fontsan#ec58e75f566648a256a4fe7264ea6ffa2b83f201"
+dependencies = [
+ "brotli-decompressor 5.0.0",
+ "cc",
 ]
 
 [[package]]
@@ -4445,7 +4455,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "fc2f4eb4bc735547cfed7c0a4922cbd04a4655978c09b54f1f7b228750664c34"
 dependencies = [
  "cfg-if",
- "windows-targets 0.48.5",
+ "windows-targets 0.52.6",
 ]
 
 [[package]]
@@ -4720,16 +4730,6 @@ name = "minimal-lexical"
 version = "0.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "68354c5c6bd36d73ff3feceb05efa59b6acb7626617f4962be322a825e61f79a"
-
-[[package]]
-name = "miniz-sys"
-version = "0.1.12"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1e9e3ae51cea1576ceba0dde3d484d30e6e5b86dee0b2d412fe3a16a15c98202"
-dependencies = [
- "cc",
- "libc",
-]
 
 [[package]]
 name = "miniz_oxide"
@@ -6636,7 +6636,7 @@ dependencies = [
  "errno",
  "libc",
  "linux-raw-sys 0.4.15",
- "windows-sys 0.52.0",
+ "windows-sys 0.59.0",
 ]
 
 [[package]]
@@ -6649,7 +6649,7 @@ dependencies = [
  "errno",
  "libc",
  "linux-raw-sys 0.9.4",
- "windows-sys 0.52.0",
+ "windows-sys 0.59.0",
 ]
 
 [[package]]
@@ -7179,7 +7179,7 @@ dependencies = [
 [[package]]
 name = "servo-media"
 version = "0.1.0"
-source = "git+https://github.com/servo/media#06be48523c18de62bbea7ffbc373f5aba1372953"
+source = "git+https://github.com/servo/media#e55a9c69cd3f7fa52a2a33f2219eb081fddaebbc"
 dependencies = [
  "once_cell",
  "servo-media-audio",
@@ -7192,7 +7192,7 @@ dependencies = [
 [[package]]
 name = "servo-media-audio"
 version = "0.2.0"
-source = "git+https://github.com/servo/media#06be48523c18de62bbea7ffbc373f5aba1372953"
+source = "git+https://github.com/servo/media#e55a9c69cd3f7fa52a2a33f2219eb081fddaebbc"
 dependencies = [
  "byte-slice-cast",
  "euclid",
@@ -7213,7 +7213,7 @@ dependencies = [
 [[package]]
 name = "servo-media-derive"
 version = "0.1.0"
-source = "git+https://github.com/servo/media#06be48523c18de62bbea7ffbc373f5aba1372953"
+source = "git+https://github.com/servo/media#e55a9c69cd3f7fa52a2a33f2219eb081fddaebbc"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -7223,7 +7223,7 @@ dependencies = [
 [[package]]
 name = "servo-media-dummy"
 version = "0.1.0"
-source = "git+https://github.com/servo/media#06be48523c18de62bbea7ffbc373f5aba1372953"
+source = "git+https://github.com/servo/media#e55a9c69cd3f7fa52a2a33f2219eb081fddaebbc"
 dependencies = [
  "ipc-channel",
  "servo-media",
@@ -7237,7 +7237,7 @@ dependencies = [
 [[package]]
 name = "servo-media-player"
 version = "0.1.0"
-source = "git+https://github.com/servo/media#06be48523c18de62bbea7ffbc373f5aba1372953"
+source = "git+https://github.com/servo/media#e55a9c69cd3f7fa52a2a33f2219eb081fddaebbc"
 dependencies = [
  "ipc-channel",
  "serde",
@@ -7249,7 +7249,7 @@ dependencies = [
 [[package]]
 name = "servo-media-streams"
 version = "0.1.0"
-source = "git+https://github.com/servo/media#06be48523c18de62bbea7ffbc373f5aba1372953"
+source = "git+https://github.com/servo/media#e55a9c69cd3f7fa52a2a33f2219eb081fddaebbc"
 dependencies = [
  "uuid",
 ]
@@ -7257,12 +7257,12 @@ dependencies = [
 [[package]]
 name = "servo-media-traits"
 version = "0.1.0"
-source = "git+https://github.com/servo/media#06be48523c18de62bbea7ffbc373f5aba1372953"
+source = "git+https://github.com/servo/media#e55a9c69cd3f7fa52a2a33f2219eb081fddaebbc"
 
 [[package]]
 name = "servo-media-webrtc"
 version = "0.1.0"
-source = "git+https://github.com/servo/media#06be48523c18de62bbea7ffbc373f5aba1372953"
+source = "git+https://github.com/servo/media#e55a9c69cd3f7fa52a2a33f2219eb081fddaebbc"
 dependencies = [
  "log",
  "servo-media-streams",
@@ -8026,7 +8026,7 @@ dependencies = [
  "getrandom 0.3.2",
  "once_cell",
  "rustix 1.0.5",
- "windows-sys 0.52.0",
+ "windows-sys 0.59.0",
 ]
 
 [[package]]
@@ -9490,7 +9490,7 @@ version = "0.1.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "cf221c93e13a30d793f7645a0e7762c55d169dbb0a49671918a2319d289b10bb"
 dependencies = [
- "windows-sys 0.52.0",
+ "windows-sys 0.59.0",
 ]
 
 [[package]]

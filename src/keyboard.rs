@@ -1,7 +1,7 @@
-use keyboard_types::{Code, Key, KeyState, KeyboardEvent, Location, Modifiers};
+use keyboard_types::{Code, KeyState, KeyboardEvent, Location, Modifiers};
 use log::info;
 use winit::event::{ElementState, KeyEvent};
-use winit::keyboard::{Key as LogicalKey, KeyCode, ModifiersState, NamedKey, PhysicalKey};
+use winit::keyboard::{KeyCode, ModifiersState, PhysicalKey};
 
 /// Some shortcuts use Cmd on Mac and Control on other systems.
 #[cfg(macos)]
@@ -38,19 +38,19 @@ macro_rules! logical_to_winit_key {
     };
 
     (@opt $variant: ident) => {
-        Key::$variant
+        keyboard_types::Key::Named(keyboard_types::NamedKey::$variant)
     };
 
     ($key: ident $(,$variant: ident $(=> $matchto: expr)?)+) => {
         match $key {
-            LogicalKey::Character(c) => Key::Character(c.to_string()),
-            $(LogicalKey::Named(NamedKey::$variant) => logical_to_winit_key!(@opt $variant $(, $matchto)?),)+
-            _ => Key::Unidentified,
+            winit::keyboard::Key::Character(c) => keyboard_types::Key::Character(c.to_string()),
+            $(winit::keyboard::Key::Named(winit::keyboard::NamedKey::$variant) => logical_to_winit_key!(@opt $variant $(, $matchto)?),)+
+            _ => keyboard_types::Key::Named(keyboard_types::NamedKey::Unidentified),
         }
     };
 }
 
-fn get_servo_key_from_winit_key(key: &LogicalKey) -> Key {
+fn get_servo_key_from_winit_key(key: &winit::keyboard::Key) -> keyboard_types::Key {
     // TODO: figure out how to map NavigateForward, NavigateBackward
     // TODO: map the remaining keys if possible
     logical_to_winit_key! {
@@ -104,7 +104,7 @@ fn get_servo_key_from_winit_key(key: &LogicalKey) -> Key {
         Copy,
         Paste,
         Cut,
-        Space => Key::Character(" ".to_string())
+        Space => keyboard_types::Key::Character(" ".to_string())
     }
 }
 
