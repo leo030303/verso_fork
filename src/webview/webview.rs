@@ -519,7 +519,7 @@ impl Window {
                                 );
                             }
 
-                            let _ = response_sender.send(PromptResponse::default());
+                            let _ = response_sender.send(PromptResponse::Cancel);
                             return false;
                         } else if message.starts_with("ACTIVATE_TAB:") {
                             let request_str = message.strip_prefix("ACTIVATE_TAB:").unwrap();
@@ -528,7 +528,7 @@ impl Window {
 
                             let tab_id = request.id;
 
-                            let _ = response_sender.send(PromptResponse::default());
+                            let _ = response_sender.send(PromptResponse::Cancel);
 
                             // FIXME: set dirty flag, and only resize when flag is set
                             self.activate_tab(compositor, tab_id, self.tab_manager.count() > 1);
@@ -575,7 +575,7 @@ impl Window {
                             let request_str = message.strip_prefix("OPEN_HISTORY_MENU:").unwrap();
                             let request: OpenHistoryMenuRequest = serde_json::from_str(request_str)
                                 .expect("Failed to parse OpenHistoryMenuRequest");
-                            let _ = response_sender.send(PromptResponse::default());
+                            let _ = response_sender.send(PromptResponse::Cancel);
 
                             if let Some(menu) = self.show_history_menu(&sender, request) {
                                 self.webview_menu = Some(Box::new(menu));
@@ -623,12 +623,12 @@ impl Window {
                             return false;
                         }
 
-                        let _ = response_sender.send(PromptResponse::default());
+                        let _ = response_sender.send(PromptResponse::Cancel);
 
                         /* Window */
                         match message.as_str() {
                             "NEW_WINDOW" => {
-                                let _ = response_sender.send(PromptResponse::default());
+                                let _ = response_sender.send(PromptResponse::Cancel);
                                 return true;
                             }
                             "MINIMIZE" => {
@@ -800,7 +800,7 @@ impl Window {
                     default: _,
                     response_sender,
                 } => {
-                    let _ = response_sender.send(PromptResponse::default());
+                    let _ = response_sender.send(PromptResponse::Cancel);
 
                     #[cfg(linux)]
                     if message.starts_with("CONTEXT_MENU:") {
@@ -894,12 +894,12 @@ impl Window {
                                     }
                                     _ => {
                                         log::error!("Invalid prompt action: {message}");
-                                        let _ = sender.send(PromptResponse::default());
+                                        let _ = sender.send(PromptResponse::Cancel);
                                     }
                                 }
                             } else {
                                 log::error!("Invalid prompt action: {message}");
-                                let _ = sender.send(PromptResponse::default());
+                                let _ = sender.send(PromptResponse::Cancel);
                             }
                         }
                         PromptSender::AllowDenySender(sender) => {
