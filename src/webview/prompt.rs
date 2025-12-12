@@ -7,8 +7,8 @@ use embedder_traits::{
 use euclid::Scale;
 use ipc_channel::ipc::IpcSender;
 use serde::{Deserialize, Serialize};
-use servo::EmbedderToConstellationMessage;
-use servo::servo_url::ServoUrl;
+use constellation_traits::EmbedderToConstellationMessage;
+use servo_url::ServoUrl;
 use webrender_api::units::DeviceRect;
 
 use crate::{verso::send_to_constellation, webview::WebView};

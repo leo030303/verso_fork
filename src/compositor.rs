@@ -8,7 +8,7 @@ use compositing::display_list::{CompositorDisplayListInfo, HitTestInfo, ScrollTr
 use compositing_traits::{
     CompositionPipeline, CompositorMsg, CompositorProxy, ImageUpdate, SendableFrameTree,
 };
-use constellation::{AnimationTickType, PaintMetricEvent, ScrollState, WindowSizeType};
+use constellation_traits::{AnimationTickType, PaintMetricEvent, ScrollState, WindowSizeType};
 use crossbeam_channel::{Receiver, Sender};
 use dpi::PhysicalSize;
 use embedder_traits::{
@@ -20,14 +20,14 @@ use euclid::{Point2D, Scale, Size2D, Transform3D, Vector2D, vec2};
 use gleam::gl;
 use ipc_channel::ipc::{self, IpcSharedMemory};
 use log::{debug, error, trace, warn};
-use servo::EmbedderToConstellationMessage;
-use servo::base::cross_process_instant::CrossProcessInstant;
-use servo::base::id::{PipelineId, WebViewId};
-use servo::base::{Epoch, WebRenderEpochToU16};
-use servo::profile_traits::mem::{ProcessReports, Report, ReportKind};
-use servo::profile_traits::time::{self as profile_time, ProfilerCategory};
-use servo::profile_traits::{mem, path, time, time_profile};
-use servo::servo_geometry::{DeviceIndependentIntSize, DeviceIndependentPixel};
+use constellation_traits::EmbedderToConstellationMessage;
+use base::cross_process_instant::CrossProcessInstant;
+use base::id::{PipelineId, WebViewId};
+use base::{Epoch, WebRenderEpochToU16};
+use profile_traits::mem::{ProcessReports, Report, ReportKind};
+use profile_traits::time::{self as profile_time, ProfilerCategory};
+use profile_traits::{mem, path, time, time_profile};
+use servo_geometry::{DeviceIndependentIntSize, DeviceIndependentPixel};
 use style_traits::CSSPixel;
 use webrender::{RenderApi, Transaction};
 use webrender_api::units::{

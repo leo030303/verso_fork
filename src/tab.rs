@@ -3,7 +3,7 @@ use std::collections::HashMap;
 use crate::webview::{WebView, prompt::PromptDialog};
 use base::id::WebViewId;
 use serde::{Deserialize, Serialize};
-use servo::servo_url::ServoUrl;
+use servo_url::ServoUrl;
 use webrender_api::units::DeviceRect;
 
 /// Tab state

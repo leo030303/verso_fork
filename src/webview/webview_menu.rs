@@ -2,8 +2,8 @@ use crossbeam_channel::Sender;
 use dpi::{LogicalPosition, PhysicalPosition};
 use embedder_traits::ViewportDetails;
 use euclid::Scale;
-use servo::EmbedderToConstellationMessage;
-use servo::servo_url::ServoUrl;
+use constellation_traits::EmbedderToConstellationMessage;
+use servo_url::ServoUrl;
 use webrender_api::units::DeviceRect;
 
 use crate::{verso::send_to_constellation, window::Window};

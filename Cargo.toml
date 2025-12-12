@@ -99,8 +99,8 @@ tokio = { version = "1", features = ["full"] }
 # Servo repo crates
 background_hang_monitor = { git = "https://github.com/servo/servo.git", rev = "ce2a51a" }
 base = { git = "https://github.com/servo/servo.git", rev = "ce2a51a" }
-bluetooth = { git = "https://github.com/servo/servo.git", rev = "ce2a51a", optional = true }
-bluetooth_traits = { git = "https://github.com/servo/servo.git", rev = "ce2a51a", optional = true }
+bluetooth = { git = "https://github.com/servo/servo.git", rev = "ce2a51a"}
+bluetooth_traits = { git = "https://github.com/servo/servo.git", rev = "ce2a51a" }
 canvas = { git = "https://github.com/servo/servo.git", rev = "ce2a51a", features = ["vello_cpu"] }
 compositing_traits = { git = "https://github.com/servo/servo.git", rev = "ce2a51a" }
 constellation = { git = "https://github.com/servo/servo.git", rev = "ce2a51a" }

@@ -1,11 +1,11 @@
 use crate::verso::send_to_constellation;
 use crate::window::Window;
-use constellation::TraversalDirection;
+use constellation_traits::TraversalDirection;
 use embedder_traits::ContextMenuResult;
 #[cfg(linux)]
 use embedder_traits::ViewportDetails;
 use ipc_channel::ipc::IpcSender;
-use servo::EmbedderToConstellationMessage;
+use constellation_traits::EmbedderToConstellationMessage;
 
 /* macOS, Windows Native Implementation */
 #[cfg(any(target_os = "macos", target_os = "windows"))]
@@ -29,7 +29,7 @@ use crossbeam_channel::Sender;
 #[cfg(linux)]
 use serde::{Deserialize, Serialize};
 #[cfg(linux)]
-use servo::servo_url::ServoUrl;
+use servo_url::ServoUrl;
 #[cfg(linux)]
 use url::Url;
 #[cfg(linux)]

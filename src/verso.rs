@@ -8,8 +8,8 @@ use arboard::Clipboard;
 use base::id::{PipelineNamespace, PipelineNamespaceId, WebViewId};
 use canvas::canvas_paint_thread::CanvasPaintThread;
 use compositing_traits::{
-    CompositorMsg, CompositorProxy, CrossProcessCompositorApi, WebrenderExternalImageHandlers,
-    WebrenderImageHandlerType,
+    CompositorMsg, CompositorProxy, CrossProcessCompositorApi, WebRenderExternalImageHandlers,
+    WebRenderImageHandlerType,
 };
 use constellation::{Constellation, FromEmbedderLogger, InitialConstellationState};
 use crossbeam_channel::{Receiver, Sender, unbounded};
@@ -26,13 +26,13 @@ use log::{Log, Metadata, Record};
 use net::resource_thread;
 use script::{self, JSEngineSetup};
 use serde::{Deserialize, Serialize};
-use servo::EmbedderToConstellationMessage;
-use servo::bluetooth::BluetoothThreadFactory;
-use servo::bluetooth_traits::BluetoothRequest;
-use servo::devtools;
-use servo::profile;
-use servo::servo_config::{opts, pref};
-use servo::servo_url::ServoUrl;
+use constellation_traits::EmbedderToConstellationMessage;
+use bluetooth::BluetoothThreadFactory;
+use bluetooth_traits::BluetoothRequest;
+use devtools;
+use profile;
+use servo_config::{opts, pref};
+use servo_url::ServoUrl;
 use style;
 use versoview_messages::{PositionType, SizeType, ToControllerMessage, ToVersoMessage};
 use webgpu;
