@@ -1,4 +1,5 @@
 use base::id::WebViewId;
+use constellation_traits::EmbedderToConstellationMessage;
 use crossbeam_channel::Sender;
 use embedder_traits::{
     AlertResponse, AllowOrDeny, AuthenticationResponse, ConfirmResponse, PromptResponse,
@@ -7,7 +8,6 @@ use embedder_traits::{
 use euclid::Scale;
 use ipc_channel::ipc::IpcSender;
 use serde::{Deserialize, Serialize};
-use constellation_traits::EmbedderToConstellationMessage;
 use servo_url::ServoUrl;
 use webrender_api::units::DeviceRect;
 

@@ -1,11 +1,11 @@
 use crate::verso::send_to_constellation;
 use crate::window::Window;
+use constellation_traits::EmbedderToConstellationMessage;
 use constellation_traits::TraversalDirection;
 use embedder_traits::ContextMenuResult;
 #[cfg(linux)]
 use embedder_traits::ViewportDetails;
 use ipc_channel::ipc::IpcSender;
-use constellation_traits::EmbedderToConstellationMessage;
 
 /* macOS, Windows Native Implementation */
 #[cfg(any(target_os = "macos", target_os = "windows"))]

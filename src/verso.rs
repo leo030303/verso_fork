@@ -6,13 +6,17 @@ use std::{
 
 use arboard::Clipboard;
 use base::id::{PipelineNamespace, PipelineNamespaceId, WebViewId};
+use bluetooth::BluetoothThreadFactory;
+use bluetooth_traits::BluetoothRequest;
 use canvas::canvas_paint_thread::CanvasPaintThread;
 use compositing_traits::{
     CompositorMsg, CompositorProxy, CrossProcessCompositorApi, WebRenderExternalImageHandlers,
     WebRenderImageHandlerType,
 };
 use constellation::{Constellation, FromEmbedderLogger, InitialConstellationState};
+use constellation_traits::EmbedderToConstellationMessage;
 use crossbeam_channel::{Receiver, Sender, unbounded};
+use devtools;
 use embedder_traits::{
     AllowOrDeny, EmbedderMsg, EmbedderProxy, EventLoopWaker, PromptResponse, WebResourceResponse,
     WebResourceResponseMsg, user_content_manager::UserContentManager,
@@ -24,13 +28,9 @@ use ipc_channel::router::ROUTER;
 use layout_thread_2020;
 use log::{Log, Metadata, Record};
 use net::resource_thread;
+use profile;
 use script::{self, JSEngineSetup};
 use serde::{Deserialize, Serialize};
-use constellation_traits::EmbedderToConstellationMessage;
-use bluetooth::BluetoothThreadFactory;
-use bluetooth_traits::BluetoothRequest;
-use devtools;
-use profile;
 use servo_config::{opts, pref};
 use servo_url::ServoUrl;
 use style;
