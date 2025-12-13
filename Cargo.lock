@@ -4382,6 +4382,59 @@ dependencies = [
 ]
 
 [[package]]
+name = "layout"
+version = "0.0.1"
+source = "git+https://github.com/servo/servo.git?rev=e81e92f#e81e92fbc2ce3414a783f25731fe014cd052c1ff"
+dependencies = [
+ "app_units",
+ "atomic_refcell",
+ "base",
+ "bitflags 2.10.0",
+ "compositing_traits",
+ "cssparser",
+ "data-url",
+ "embedder_traits",
+ "euclid",
+ "fonts",
+ "fonts_traits",
+ "html5ever",
+ "icu_locid",
+ "icu_segmenter",
+ "itertools 0.14.0",
+ "kurbo 0.12.0",
+ "layout_api",
+ "log",
+ "malloc_size_of_derive",
+ "net_traits",
+ "parking_lot",
+ "pixels",
+ "profile_traits",
+ "range",
+ "rayon",
+ "rustc-hash 2.1.1",
+ "script",
+ "script_traits",
+ "selectors",
+ "servo-tracing",
+ "servo_arc",
+ "servo_config",
+ "servo_geometry",
+ "servo_malloc_size_of",
+ "servo_url",
+ "smallvec",
+ "strum",
+ "stylo",
+ "stylo_atoms",
+ "stylo_traits",
+ "taffy",
+ "unicode-bidi",
+ "unicode-script",
+ "url",
+ "webrender_api",
+ "xi-unicode",
+]
+
+[[package]]
 name = "layout_api"
 version = "0.0.1"
 source = "git+https://github.com/servo/servo.git?rev=e81e92f#e81e92fbc2ce3414a783f25731fe014cd052c1ff"
@@ -4456,7 +4509,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "fc2f4eb4bc735547cfed7c0a4922cbd04a4655978c09b54f1f7b228750664c34"
 dependencies = [
  "cfg-if",
- "windows-targets 0.48.5",
+ "windows-targets 0.52.6",
 ]
 
 [[package]]
@@ -8871,6 +8924,7 @@ dependencies = [
  "http 1.4.0",
  "ipc-channel",
  "keyboard-types 0.8.3",
+ "layout",
  "log",
  "media",
  "mime",
@@ -10252,6 +10306,12 @@ dependencies = [
  "libc",
  "windows-sys 0.59.0",
 ]
+
+[[package]]
+name = "xi-unicode"
+version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a67300977d3dc3f8034dae89778f502b6ba20b269527b3223ba59c0cf393bb8a"
 
 [[package]]
 name = "xkbcommon-dl"

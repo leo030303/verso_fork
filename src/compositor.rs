@@ -571,7 +571,7 @@ impl IOCompositor {
                 self.dispatch_input_event(
                     webview_id,
                     InputEvent::MouseButton(MouseButtonEvent {
-                        point,
+                        point: embedder_traits::WebViewPoint::Device(point),
                         action,
                         button,
                     }),
@@ -1318,17 +1318,17 @@ impl IOCompositor {
         };
 
         // If we can't find a pipeline to send this event to, we cannot continue.
-        let Some(result) = self.hit_test_at_point(point) else {
+        let Some(result) = self.hit_test_at_point(point.as_device_point(euclid::Scale::identity())) else {
             return;
         };
 
-        self.update_cursor(point, &result);
+        self.update_cursor(point.as_device_point(euclid::Scale::identity()), &result);
 
         if let Err(error) =
             self.constellation_chan
                 .send(EmbedderToConstellationMessage::ForwardInputEvent(
                     webview_id,
-                    event.clone(),
+                    event.clone().into(),
                     Some(result),
                 ))
         {
@@ -1427,7 +1427,6 @@ impl IOCompositor {
                 Some(PaintHitTestResult {
                     pipeline_id,
                     point_in_viewport: item.point_in_viewport.to_untyped(),
-                    point_relative_to_item: item.point_relative_to_item.to_untyped(),
                     node: UntrustedNodeAddress(info.node as *const c_void),
                     cursor: info.cursor,
                     scroll_tree_node: info.scroll_tree_node,
@@ -1437,7 +1436,7 @@ impl IOCompositor {
     }
 
     fn send_touch_event(&self, webview_id: WebViewId, event: TouchEvent) {
-        let Some(result) = self.hit_test_at_point(event.point) else {
+        let Some(result) = self.hit_test_at_point(event.point.as_device_point(euclid::Scale::identity())) else {
             return;
         };
 
@@ -1469,15 +1468,15 @@ impl IOCompositor {
     }
 
     fn on_touch_down(&mut self, webview_id: WebViewId, event: TouchEvent) {
-        self.touch_handler.on_touch_down(event.id, event.point);
+        self.touch_handler.on_touch_down(event.id, event.point.as_device_point(euclid::Scale::identity()));
         self.send_touch_event(webview_id, event);
     }
 
     fn on_touch_move(&mut self, webview_id: WebViewId, event: TouchEvent) {
-        match self.touch_handler.on_touch_move(event.id, event.point) {
+        match self.touch_handler.on_touch_move(event.id, event.point.as_device_point(euclid::Scale::identity())) {
             TouchAction::Scroll(delta) => self.on_scroll_window_event(
                 ScrollLocation::Delta(LayoutVector2D::from_untyped(delta.to_untyped())),
-                event.point.cast(),
+                event.point.as_device_point(euclid::Scale::identity()),
             ),
             TouchAction::Zoom(magnification, scroll_delta) => {
                 let cursor = Point2D::new(-1, -1); // Make sure this hits the base layer.
@@ -1504,14 +1503,14 @@ impl IOCompositor {
     fn on_touch_up(&mut self, webview_id: WebViewId, event: TouchEvent) {
         self.send_touch_event(webview_id, event);
 
-        if let TouchAction::Click = self.touch_handler.on_touch_up(event.id, event.point) {
-            self.simulate_mouse_click(webview_id, event.point);
+        if let TouchAction::Click = self.touch_handler.on_touch_up(event.id, event.point.as_device_point(euclid::Scale::identity())) {
+            self.simulate_mouse_click(webview_id, event.point.as_device_point(euclid::Scale::identity()));
         }
     }
 
     fn on_touch_cancel(&mut self, webview_id: WebViewId, event: TouchEvent) {
         // Send the event to script.
-        self.touch_handler.on_touch_cancel(event.id, event.point);
+        self.touch_handler.on_touch_cancel(event.id, event.point.as_device_point(euclid::Scale::identity()));
         self.send_touch_event(webview_id, event);
     }
 

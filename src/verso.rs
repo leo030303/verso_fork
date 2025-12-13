@@ -10,7 +10,7 @@ use bluetooth::BluetoothThreadFactory;
 use bluetooth_traits::BluetoothRequest;
 use canvas::canvas_paint_thread::CanvasPaintThread;
 use compositing_traits::{
-    CompositorMsg, CompositorProxy, CrossProcessCompositorApi, WebRenderExternalImageHandlers,
+    PaintMessage, PaintProxy, CrossProcessPaintApi, WebRenderExternalImageHandlers,
     WebRenderImageHandlerType,
 };
 use constellation::{Constellation, FromEmbedderLogger, InitialConstellationState};
@@ -25,9 +25,9 @@ use euclid::Scale;
 use fonts::SystemFontService;
 use ipc_channel::ipc::{self, IpcSender};
 use ipc_channel::router::ROUTER;
-use layout_thread_2020;
 use log::{Log, Metadata, Record};
 use net::resource_thread;
+use layout;
 use profile;
 use script::{self, JSEngineSetup};
 use serde::{Deserialize, Serialize};
@@ -148,7 +148,7 @@ impl Verso {
         style::context::DEFAULT_DISABLE_STYLE_SHARING_CACHE
             .store(opts.debug.disable_share_style_cache, Ordering::Relaxed);
         style::context::DEFAULT_DUMP_STYLE_STATISTICS
-            .store(opts.debug.dump_style_statistics, Ordering::Relaxed);
+            .store(opts.debug.style_statistics, Ordering::Relaxed);
         style::traversal::IS_SERVO_NONINCREMENTAL_LAYOUT
             .store(opts.nonincremental_layout, Ordering::Relaxed);
 
@@ -277,13 +277,13 @@ impl Verso {
 
         // Create font cache thread
         let system_font_service = Arc::new(
-            SystemFontService::spawn(compositor_proxy.cross_process_compositor_api.clone())
+            SystemFontService::spawn(compositor_proxy.cross_process_paint_api.clone())
                 .to_proxy(),
         );
 
         // Create canvas thread
         let (canvas_create_sender, canvas_ipc_sender) = CanvasPaintThread::start(
-            compositor_proxy.cross_process_compositor_api.clone(),
+            compositor_proxy.cross_process_paint_api.clone(),
             system_font_service.clone(),
             public_resource_threads.clone(),
         );
@@ -294,7 +294,7 @@ impl Verso {
         }
 
         // Create layout factory
-        let layout_factory = Arc::new(layout_thread_2020::LayoutFactoryImpl());
+        let layout_factory = Arc::new(layout::LayoutFactoryImpl());
         let initial_state = InitialConstellationState {
             compositor_proxy: compositor_proxy.clone(),
             embedder_proxy,
@@ -1095,11 +1095,11 @@ impl EventLoopWaker for Waker {
 
 #[derive(Clone)]
 struct RenderNotifier {
-    compositor_proxy: CompositorProxy,
+    compositor_proxy: PaintProxy,
 }
 
 impl RenderNotifier {
-    pub fn new(compositor_proxy: CompositorProxy) -> RenderNotifier {
+    pub fn new(compositor_proxy: PaintProxy) -> RenderNotifier {
         RenderNotifier { compositor_proxy }
     }
 }
@@ -1119,7 +1119,7 @@ impl webrender::api::RenderNotifier for RenderNotifier {
         _frame_publish_id: FramePublishId,
     ) {
         self.compositor_proxy
-            .send(CompositorMsg::NewWebRenderFrameReady(
+            .send(PaintMessage::NewWebRenderFrameReady(
                 document_id,
                 composite_needed,
             ));
@@ -1175,16 +1175,16 @@ fn create_embedder_channel(
 
 fn create_compositor_channel(
     event_loop_waker: Box<dyn EventLoopWaker>,
-) -> (CompositorProxy, Receiver<CompositorMsg>) {
+) -> (PaintProxy, Receiver<PaintMessage>) {
     let (sender, receiver) = unbounded();
 
     let (compositor_ipc_sender, compositor_ipc_receiver) =
         ipc::channel().expect("ipc channel failure");
 
-    let cross_process_compositor_api = CrossProcessCompositorApi(compositor_ipc_sender);
-    let compositor_proxy = CompositorProxy {
+    let cross_process_paint_api = CrossProcessPaintApi(compositor_ipc_sender);
+    let compositor_proxy = PaintProxy {
         sender,
-        cross_process_compositor_api,
+        cross_process_paint_api,
         event_loop_waker,
     };
 

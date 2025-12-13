@@ -105,6 +105,7 @@ canvas = { git = "https://github.com/servo/servo.git", rev = "e81e92f", features
 compositing_traits = { git = "https://github.com/servo/servo.git", rev = "e81e92f" }
 constellation = { git = "https://github.com/servo/servo.git", rev = "e81e92f" }
 constellation_traits = { git = "https://github.com/servo/servo.git", rev = "e81e92f" }
+layout = { git = "https://github.com/servo/servo.git", rev = "e81e92f" }
 devtools = { git = "https://github.com/servo/servo.git", rev = "e81e92f" }
 embedder_traits = { git = "https://github.com/servo/servo.git", rev = "e81e92f" }
 fonts = { git = "https://github.com/servo/servo.git", rev = "e81e92f" }

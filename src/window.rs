@@ -1209,6 +1209,6 @@ fn forward_input_event(
     }
 
     let _ = constellation_proxy.send(EmbedderToConstellationMessage::ForwardInputEvent(
-        webview_id, event, None, /* hit_test */
+        webview_id, event.into(), None, /* hit_test */
     ));
 }

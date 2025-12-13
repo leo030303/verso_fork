@@ -858,7 +858,7 @@ impl Window {
                     message,
                     response_sender,
                 } => {
-                    let _ = response_sender.send(AlertResponse::default());
+                    let _ = response_sender.send(AlertResponse::Ok);
 
                     let Some(prompt) = self.tab_manager.prompt_by_prompt_id(webview_id) else {
                         log::error!("Prompt not found. WebView: {webview_id:?}");
@@ -868,7 +868,7 @@ impl Window {
                     let servo_sender = prompt.sender().unwrap();
                     match servo_sender {
                         PromptSender::AlertSender(sender) => {
-                            let _ = sender.send(AlertResponse::default());
+                            let _ = sender.send(AlertResponse::Ok);
                         }
                         PromptSender::ConfirmSender(sender) => {
                             let result: ConfirmResponse = match message.as_str() {
@@ -876,7 +876,7 @@ impl Window {
                                 "cancel" => ConfirmResponse::Cancel,
                                 _ => {
                                     log::error!("Invalid prompt action: {message}");
-                                    ConfirmResponse::default()
+                                    ConfirmResponse::Cancel
                                 }
                             };
                             let _ = sender.send(result);
